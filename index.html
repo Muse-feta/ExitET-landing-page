@@ -272,14 +272,46 @@
   @media (prefers-reduced-motion: no-preference){
     .fade-up{
       opacity: 0;
-      transform: translateY(14px);
-      animation: fadeUp 0.7s ease-out forwards;
+      transform: translateY(20px);
+    }
+    .fade-up.visible{
+      animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .fade-in{
+      opacity: 0;
+    }
+    .fade-in.visible{
+      animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .scale-up{
+      opacity: 0;
+      transform: scale(0.96);
+    }
+    .scale-up.visible{
+      animation: scaleUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
   }
   @keyframes fadeUp{
     to{ opacity: 1; transform: translateY(0); }
   }
+  @keyframes fadeIn{
+    to{ opacity: 1; }
+  }
+  @keyframes scaleUp{
+    to{ opacity: 1; transform: scale(1); }
+  }
 </style>
+<noscript>
+  <style>
+    .fade-up, .fade-in, .scale-up {
+      opacity: 1 !important;
+      transform: none !important;
+      animation: none !important;
+    }
+  </style>
+</noscript>
 </head>
 <body class="min-h-screen relative overflow-x-hidden">
 
@@ -585,7 +617,7 @@
 
     <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
       <!-- Left Info -->
-      <div class="max-w-md">
+      <div class="max-w-md fade-up">
         <div class="inline-flex items-center gap-2 text-xs nav-pill rounded-full px-3 py-1 text-[var(--ink-dim)] mb-4">
           <span class="text-[var(--accent)]">☕</span> Support the Mission
         </div>
@@ -598,7 +630,7 @@
       </div>
 
       <!-- Right Accounts -->
-      <div class="w-full lg:max-w-sm space-y-3">
+      <div class="w-full lg:max-w-sm space-y-3 fade-up" style="animation-delay: 0.15s">
         <!-- Telebirr -->
         <div class="flex items-center justify-between bg-[var(--bg-soft)] border border-[var(--line)] rounded-xl p-3.5 hover:border-[var(--accent)] transition-all">
           <div class="flex items-center gap-3">
@@ -673,6 +705,28 @@
         }, 2000);
       });
     }
+
+    // Scroll animation observer
+    document.addEventListener("DOMContentLoaded", function() {
+      const animatedElements = document.querySelectorAll('.fade-up, .fade-in, .scale-up');
+      
+      const observerOptions = {
+        root: null,
+        rootMargin: '0px 0px -60px 0px',
+        threshold: 0.1
+      };
+      
+      const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+      
+      animatedElements.forEach(el => observer.observe(el));
+    });
   </script>
 
 </body>
