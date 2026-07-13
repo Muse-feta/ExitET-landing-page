@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ExitET — Download for Android</title>
+<link rel="icon" type="image/png" href="../assets/images/logo.png">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0A0A0C;
+    --bg-soft: #131317;
+    --card: #17171C;
+    --line: #26262C;
+    --ink: #F5F5F7;
+    --ink-dim: #9A9AA2;
+    --accent: #7C8CFF;
+  }
+  body{
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+  }
+
+  .glow-hero{
+    background: radial-gradient(60% 50% at 50% 0%, rgba(124,140,255,0.18) 0%, transparent 70%);
+  }
+  .glow-section{
+    background: radial-gradient(45% 40% at 50% 0%, rgba(124,140,255,0.10) 0%, transparent 70%);
+  }
+
+  .gradient-text{
+    background: linear-gradient(180deg, #FFFFFF 0%, #8C8C96 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .gradient-text-accent{
+    background: linear-gradient(135deg, #a5b4fc 0%, #7C8CFF 50%, #c4b5fd 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .nav-pill{
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--line);
+    backdrop-filter: blur(12px);
+  }
+
+  .btn-primary{
+    background: var(--ink);
+    color: #0A0A0C;
+  }
+  .btn-primary:hover{ background: var(--accent); color: var(--ink); }
+
+  .btn-ghost{
+    border: 1px solid var(--line);
+    color: var(--ink);
+  }
+  .btn-ghost:hover{ background: var(--bg-soft); border-color: var(--accent); }
+
+  .avatar{ border: 2px solid var(--bg); }
+
+  /* step cards */
+  .step-card{
+    background: var(--bg-soft);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 28px 24px;
+    position: relative;
+    transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .step-card:hover{
+    border-color: var(--accent);
+    transform: translateY(-6px);
+    box-shadow: 0 0 32px rgba(124,140,255,0.15), 0 8px 32px rgba(0,0,0,0.4);
+  }
+  .step-card:hover .step-icon-wrap{
+    background: rgba(124,140,255,0.22);
+    box-shadow: 0 0 20px rgba(124,140,255,0.35);
+  }
+  .step-card:hover .step-title{ color: var(--accent); }
+
+  .step-icon-wrap{
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    background: rgba(124,140,255,0.10);
+    border: 1px solid rgba(124,140,255,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 18px;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .step-number{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    opacity: 0.6;
+  }
+
+  .step-title{
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 8px;
+    transition: color 0.3s ease;
+  }
+
+  .step-desc{
+    font-size: 14px;
+    color: var(--ink-dim);
+    line-height: 1.65;
+  }
+
+  .divider-glow{
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--line), transparent);
+    margin: 0;
+  }
+
+  /* stats */
+  .stat-num{
+    font-size: 3rem;
+    font-weight: 800;
+    line-height: 1;
+    background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 60%, #7C8CFF 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    letter-spacing: -0.03em;
+  }
+  .stat-label{
+    font-size: 13px;
+    color: var(--ink-dim);
+    margin-top: 4px;
+    font-weight: 500;
+  }
+  .stat-card{
+    flex: 1;
+    min-width: 160px;
+    background: var(--bg-soft);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 22px 28px;
+    text-align: center;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  .stat-card:hover{
+    border-color: var(--accent);
+    box-shadow: 0 0 28px rgba(124,140,255,0.15);
+  }
+
+  /* store buttons */
+  .btn-store{
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--bg-soft);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 12px 20px;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color 0.25s, box-shadow 0.25s, transform 0.2s;
+    text-decoration: none;
+    color: var(--ink);
+  }
+  .btn-store:hover{
+    border-color: var(--accent);
+    box-shadow: 0 0 24px rgba(124,140,255,0.18);
+    transform: translateY(-2px);
+  }
+  .btn-store-coming{
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255,255,255,0.02);
+    border: 1px dashed var(--line);
+    border-radius: 14px;
+    padding: 12px 20px;
+    text-align: left;
+    cursor: not-allowed;
+    opacity: 0.6;
+    position: relative;
+    color: var(--ink);
+  }
+  .coming-badge{
+    position: absolute;
+    top: -9px;
+    right: 10px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: linear-gradient(135deg, #a5b4fc, #7C8CFF);
+    color: #0A0A0C;
+    padding: 2px 7px;
+    border-radius: 999px;
+  }
+  .store-eyebrow{
+    font-size: 10px;
+    color: var(--ink-dim);
+    line-height: 1;
+    margin-bottom: 2px;
+  }
+  .store-name{
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  @media (prefers-reduced-motion: no-preference){
+    .fade-up{
+      opacity: 0;
+      transform: translateY(14px);
+      animation: fadeUp 0.7s ease-out forwards;
+    }
+  }
+  @keyframes fadeUp{
+    to{ opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body class="min-h-screen relative overflow-x-hidden">
+
+  <div class="glow-hero absolute inset-x-0 top-0 h-[560px] pointer-events-none"></div>
+
+  <!-- Nav -->
+  <header class="relative max-w-6xl mx-auto px-6 pt-6">
+    <nav class="nav-pill rounded-2xl px-5 py-3 flex items-center justify-between">
+      <a href="#" class="flex items-center gap-2">
+        <img src="../assets/images/logo.png" alt="ExitET logo" class="w-7 h-7 rounded-lg object-contain">
+        <span class="font-semibold tracking-tight text-lg">ExitET</span>
+      </a>
+      <div class="hidden md:flex items-center gap-8 text-sm text-[var(--ink-dim)]">
+        <a href="#how-to-use" class="hover:text-[var(--ink)] transition-colors">How to Use</a>
+        <a href="#faq" class="hover:text-[var(--ink)] transition-colors">FAQ</a>
+        <a href="#support" class="hover:text-[var(--ink)] transition-colors">Support</a>
+      </div>
+      <a href="#download"
+         class="btn-primary text-sm font-medium rounded-full px-4 py-2 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]">
+        Download
+      </a>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="relative max-w-3xl mx-auto px-6 pt-20 pb-24 text-center">
+
+    <div class="fade-up inline-flex items-center gap-2 text-xs nav-pill rounded-full px-4 py-1.5 text-[var(--ink-dim)]" style="animation-delay:0.05s">
+      <span class="text-[var(--accent)]">✦</span>
+      Now on Android &middot; iOS coming soon
+    </div>
+
+    <h1 class="fade-up mt-8 text-5xl sm:text-6xl font-extrabold tracking-tight leading-[1.05]" style="animation-delay:0.15s">
+      <span class="gradient-text">Prepare for Exit.</span><br>
+      <span class="gradient-text-accent">Ace every question.</span>
+    </h1>
+
+    <p class="fade-up mt-6 text-lg text-[var(--ink-dim)] max-w-xl mx-auto leading-relaxed" style="animation-delay:0.25s">
+      Download ExitET directly or grab it from the store &mdash; Android ready now, iOS support on the way.
+    </p>
+
+    <!-- Platform download row -->
+    <div class="fade-up mt-9 flex flex-wrap items-center justify-center gap-3" style="animation-delay:0.35s" id="download">
+
+      <!-- Direct APK -->
+      <a href="/exitet-latest.apk" download class="btn-store">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7C8CFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+        <div>
+          <div class="store-eyebrow">Android only</div>
+          <div class="store-name">Download APK</div>
+        </div>
+      </a>
+
+      <!-- Play Store -->
+      <div class="btn-store-coming" style="cursor:default">
+        <span class="coming-badge">Coming Soon</span>
+        <svg width="22" height="22" viewBox="0 0 512 512" fill="#7C8CFF">
+          <path d="M48 59.49v393a4.33 4.33 0 0 0 7.37 3.07L260 256 55.37 56.42A4.33 4.33 0 0 0 48 59.49z"/>
+          <path d="M345.8 174L89.22 32.64l-.16-.09c-4.42-2.4-8.62 3.58-5 7.06L300 256z"/>
+          <path d="M84.08 472.39c-3.64 3.48.56 9.46 5 7.06l.16-.09L345.8 338l-45.77-82z"/>
+          <path d="M449.38 231l-71.65-39.46L322.44 256l55.29 64.43L449.38 281c19.49-10.77 19.49-39.23 0-50z"/>
+        </svg>
+        <div>
+          <div class="store-eyebrow">Get it on</div>
+          <div class="store-name">Google Play</div>
+        </div>
+      </div>
+
+      <!-- App Store (iPhone focus) -->
+      <div class="btn-store-coming" style="cursor:default">
+        <span class="coming-badge">Coming Soon</span>
+        <svg width="22" height="22" viewBox="0 0 814 1000" fill="#7C8CFF">
+          <path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-42.4-150.3-109.7c-52.1-75.3-95.2-193.3-95.2-304.7 0-221.4 144.4-338.2 286.8-338.2 75.9 0 139 49.4 186.6 49.4 46.6 0 119.5-52.6 206.8-52.6zm-41.3-226.4c36.5-43.5 62.3-104.3 62.3-165.1 0-9.6-.6-19.2-2.6-27.5-58.7 2.2-128.6 39.1-170.8 88.8-33.1 37.6-64.3 97.7-64.3 159.2 0 10.3 1.9 20.6 2.6 23.9 3.9.6 10.3 1.3 16.6 1.3 53.1 0 116.3-35.1 156.2-80.6z"/>
+        </svg>
+        <div>
+          <div class="store-eyebrow">Download on the</div>
+          <div class="store-name">App Store</div>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="fade-up mt-4 text-xs text-[var(--ink-dim)]" style="animation-delay:0.4s">
+      v1.0.0 · 35 MB · Requires Android 8.0+
+    </p>
+
+    <!-- Stats strip -->
+    <div class="fade-up mt-12 flex flex-wrap items-stretch justify-center gap-4" style="animation-delay:0.45s">
+      <div class="stat-card">
+        <div class="stat-num">10,000<span style="color:#7C8CFF">+</span></div>
+        <div class="stat-label">Exam Questions</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">50<span style="color:#7C8CFF">+</span></div>
+        <div class="stat-label">Departments Covered</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" style="font-size:2.4rem">100<span style="color:#7C8CFF">%</span></div>
+        <div class="stat-label">Free to Download</div>
+      </div>
+    </div>
+
+    
+
+  </section>
+
+  <hr class="divider-glow">
+
+  <!-- How to Use Section -->
+  <section id="how-to-use" class="relative max-w-6xl mx-auto px-6 py-24">
+    <div class="glow-section absolute inset-x-0 top-0 h-[400px] pointer-events-none"></div>
+
+    <!-- Section Header -->
+    <div class="fade-up text-center mb-16" style="animation-delay:0.1s">
+      <div class="inline-flex items-center gap-2 text-xs nav-pill rounded-full px-4 py-1.5 text-[var(--ink-dim)] mb-5">
+        <span class="text-[var(--accent)]">✦</span> Step-by-Step Flow
+      </div>
+      <h2 class="text-4xl sm:text-5xl font-extrabold tracking-tight">
+        <span class="gradient-text">How it </span><span class="gradient-text-accent">Works</span>
+      </h2>
+      <p class="mt-5 text-[var(--ink-dim)] max-w-lg mx-auto text-base leading-relaxed">
+        Launch your preparation in under 2 minutes with four simple steps.
+      </p>
+    </div>
+
+    <!-- Bento Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      
+      <!-- Card 1: Download & Install (Colspan 2) -->
+      <div class="fade-up md:col-span-2 bg-[var(--bg-soft)] border border-[var(--line)] rounded-3xl p-8 flex flex-col justify-between overflow-hidden relative transition-all duration-300 hover:border-[var(--accent)] hover:-translate-y-1 group" style="animation-delay: 0.15s">
+        <div class="max-w-md">
+          <div class="text-[var(--accent)] text-xs font-bold tracking-widest uppercase mb-3">Step 01</div>
+          <h3 class="text-2xl font-bold text-[var(--ink)] mb-3">Download &amp; Install</h3>
+          <p class="text-sm text-[var(--ink-dim)] leading-relaxed">
+            Get the APK file directly to your device. Open it to trigger the native Android installer. Make sure to allow installations from unknown sources when prompted.
+          </p>
+        </div>
+        
+        <!-- Interactive Side-graphic -->
+        <div class="mt-6 flex items-center gap-3">
+          <a href="/exitet-latest.apk" download class="btn-primary inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-xs font-semibold">
+            Download APK
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14"/><path d="m5 12 7 7 7-7"/></svg>
+          </a>
+          <span class="text-xs text-[var(--ink-dim)]">v1.0.0 &middot; Android 8.0+</span>
+        </div>
+      </div>
+
+      <!-- Card 2: Pick Your Stream (Colspan 1) -->
+      <div class="fade-up md:col-span-1 bg-[var(--bg-soft)] border border-[var(--line)] rounded-3xl p-8 flex flex-col justify-between overflow-hidden relative transition-all duration-300 hover:border-[var(--accent)] hover:-translate-y-1 group" style="animation-delay: 0.25s">
+        <div>
+          <div class="text-[var(--accent)] text-xs font-bold tracking-widest uppercase mb-3">Step 02</div>
+          <h3 class="text-xl font-bold text-[var(--ink)] mb-3">Choose Stream</h3>
+          <p class="text-sm text-[var(--ink-dim)] leading-relaxed">
+            Select your graduation year and major to focus only on questions relevant to your curriculum.
+          </p>
+        </div>
+
+        <!-- Decorative stream pills -->
+        <div class="mt-8 flex flex-wrap gap-2">
+          <span class="text-xs px-2.5 py-1 rounded-md bg-[var(--line)] text-[var(--ink)] opacity-70">Medicine</span>
+          <span class="text-xs px-2.5 py-1 rounded-md bg-[var(--line)] text-[var(--ink)] opacity-70">Law</span>
+          <span class="text-xs px-2.5 py-1 rounded-md bg-[var(--line)] text-[var(--ink)] opacity-70">CS</span>
+          <span class="text-xs px-2.5 py-1 rounded-md bg-[var(--line)] text-[var(--ink)] opacity-70">Civil Eng</span>
+        </div>
+      </div>
+
+      <!-- Card 3: Practice & Discuss (Colspan 1) -->
+      <div class="fade-up md:col-span-1 bg-[var(--bg-soft)] border border-[var(--line)] rounded-3xl p-8 flex flex-col justify-between overflow-hidden relative transition-all duration-300 hover:border-[var(--accent)] hover:-translate-y-1 group" style="animation-delay: 0.35s">
+        <div>
+          <div class="text-[var(--accent)] text-xs font-bold tracking-widest uppercase mb-3">Step 03</div>
+          <h3 class="text-xl font-bold text-[var(--ink)] mb-3">Solve &amp; Learn</h3>
+          <p class="text-sm text-[var(--ink-dim)] leading-relaxed">
+            Swipe questions, read explanations, and join student chatrooms for collaborative learning.
+          </p>
+        </div>
+
+        <!-- Mini question mockup -->
+        <div class="mt-8 bg-[var(--bg)] border border-[var(--line)] rounded-xl p-3.5 flex flex-col gap-2">
+          <div class="w-2/3 h-1.5 bg-[var(--line)] rounded"></div>
+          <div class="w-1/2 h-1.5 bg-[var(--line)] rounded"></div>
+          <div class="mt-1 flex gap-2">
+            <span class="w-3.5 h-3.5 rounded-full bg-emerald-500/20 flex items-center justify-center text-[8px] text-emerald-400 font-bold">✓</span>
+            <div class="w-1/3 h-1.5 bg-emerald-500/20 rounded mt-1"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4: Track Progress (Colspan 2) -->
+      <div class="fade-up md:col-span-2 bg-[var(--bg-soft)] border border-[var(--line)] rounded-3xl p-8 flex flex-col justify-between overflow-hidden relative transition-all duration-300 hover:border-[var(--accent)] hover:-translate-y-1 group" style="animation-delay: 0.45s">
+        <div class="max-w-md">
+          <div class="text-[var(--accent)] text-xs font-bold tracking-widest uppercase mb-3">Step 04</div>
+          <h3 class="text-2xl font-bold text-[var(--ink)] mb-3">Track Progress</h3>
+          <p class="text-sm text-[var(--ink-dim)] leading-relaxed">
+            Bookmark tricky questions, monitor your scores across sessions, and build a consistent daily habit to ace your real exit exam.
+          </p>
+        </div>
+
+        <!-- Mockup Metrics -->
+        <div class="mt-6 flex items-center gap-6">
+          <div class="flex items-center gap-2">
+            <span class="text-2xl font-bold text-[var(--ink)]">4.8</span>
+            <span class="text-xs text-[var(--ink-dim)]">Average rating</span>
+          </div>
+          <div class="w-[1px] h-6 bg-[var(--line)]"></div>
+          <div class="flex items-center gap-2">
+            <span class="text-2xl font-bold text-[var(--ink)]">98%</span>
+            <span class="text-xs text-[var(--ink-dim)]">Success rate</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section id="faq" class="relative max-w-4xl mx-auto px-6 py-24">
+    
+    <div class="glow-section absolute inset-x-0 top-0 h-[300px] pointer-events-none"></div>
+
+    <div class="fade-up text-center mb-16" style="animation-delay: 0.1s">
+      <div class="inline-flex items-center gap-2 text-xs nav-pill rounded-full px-4 py-1.5 text-[var(--ink-dim)] mb-5">
+        <span class="text-[var(--accent)]">✦</span>
+        Got Questions?
+      </div>
+      <h2 class="text-4xl sm:text-5xl font-extrabold tracking-tight">
+        <span class="gradient-text">Frequently Asked </span><span class="gradient-text-accent">Questions</span>
+      </h2>
+      <p class="mt-5 text-[var(--ink-dim)] max-w-lg mx-auto text-base leading-relaxed">
+        Everything you need to know about preparing for your exit exams with ExitET.
+      </p>
+    </div>
+
+    <div class="space-y-4">
+      
+      <!-- FAQ item 1 -->
+      <details class="fade-up group bg-[var(--bg-soft)] border border-[var(--line)] rounded-2xl p-6 [&_summary::-webkit-details-marker]:hidden transition-all duration-300 hover:border-[var(--accent)]" style="animation-delay: 0.15s">
+        <summary class="flex items-center justify-between cursor-pointer focus:outline-none">
+          <h3 class="text-base sm:text-lg font-semibold text-[var(--ink)] pr-4">What departments are covered in ExitET?</h3>
+          <span class="transition-transform duration-300 group-open:rotate-180 text-[var(--accent)]">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </span>
+        </summary>
+        <p class="mt-4 text-sm sm:text-base text-[var(--ink-dim)] leading-relaxed border-t border-[var(--line)] pt-4">
+          ExitET supports over 50 academic departments, covering main fields in Engineering, Business &amp; Economics, Medicine &amp; Health Sciences, Natural Sciences, and Social Sciences.
+        </p>
+      </details>
+
+      <!-- FAQ item 2 -->
+      <details class="fade-up group bg-[var(--bg-soft)] border border-[var(--line)] rounded-2xl p-6 [&_summary::-webkit-details-marker]:hidden transition-all duration-300 hover:border-[var(--accent)]" style="animation-delay: 0.25s">
+        <summary class="flex items-center justify-between cursor-pointer focus:outline-none">
+          <h3 class="text-base sm:text-lg font-semibold text-[var(--ink)] pr-4">How do I download and install the app?</h3>
+          <span class="transition-transform duration-300 group-open:rotate-180 text-[var(--accent)]">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </span>
+        </summary>
+        <p class="mt-4 text-sm sm:text-base text-[var(--ink-dim)] leading-relaxed border-t border-[var(--line)] pt-4">
+          Simply tap the <strong>Download APK</strong> button in the hero section to save the file. Open it on your Android device and tap install. If prompted, make sure to allow installations from unknown sources in your device settings.
+        </p>
+      </details>
+
+      <!-- FAQ item 3 -->
+      <details class="fade-up group bg-[var(--bg-soft)] border border-[var(--line)] rounded-2xl p-6 [&_summary::-webkit-details-marker]:hidden transition-all duration-300 hover:border-[var(--accent)]" style="animation-delay: 0.35s">
+        <summary class="flex items-center justify-between cursor-pointer focus:outline-none">
+          <h3 class="text-base sm:text-lg font-semibold text-[var(--ink)] pr-4">Is the app free to use?</h3>
+          <span class="transition-transform duration-300 group-open:rotate-180 text-[var(--accent)]">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </span>
+        </summary>
+        <p class="mt-4 text-sm sm:text-base text-[var(--ink-dim)] leading-relaxed border-t border-[var(--line)] pt-4">
+          Yes! ExitET is 100% free to download and use. You get full access to all questions, answers, and department feeds without any hidden fees or in-app purchases.
+        </p>
+      </details>
+
+      <!-- FAQ item 4 -->
+      <details class="fade-up group bg-[var(--bg-soft)] border border-[var(--line)] rounded-2xl p-6 [&_summary::-webkit-details-marker]:hidden transition-all duration-300 hover:border-[var(--accent)]" style="animation-delay: 0.45s">
+        <summary class="flex items-center justify-between cursor-pointer focus:outline-none">
+          <h3 class="text-base sm:text-lg font-semibold text-[var(--ink)] pr-4">Can I practice without an internet connection?</h3>
+          <span class="transition-transform duration-300 group-open:rotate-180 text-[var(--accent)]">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </span>
+        </summary>
+        <p class="mt-4 text-sm sm:text-base text-[var(--ink-dim)] leading-relaxed border-t border-[var(--line)] pt-4">
+          Yes! Once you download your specific department's questions, you can access and practice them completely offline. An internet connection is only needed to load updates and participate in the community discussion board.
+        </p>
+      </details>
+
+    </div>
+  </section>
+
+  <hr class="divider-glow">
+
+  <!-- Support Section -->
+  <section id="support" class="relative max-w-4xl mx-auto px-6 py-20 border-t border-[var(--line)]">
+    <div class="glow-section absolute inset-x-0 top-0 h-[250px] pointer-events-none"></div>
+
+    <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
+      <!-- Left Info -->
+      <div class="max-w-md">
+        <div class="inline-flex items-center gap-2 text-xs nav-pill rounded-full px-3 py-1 text-[var(--ink-dim)] mb-4">
+          <span class="text-[var(--accent)]">☕</span> Support the Mission
+        </div>
+        <h2 class="text-3xl font-extrabold tracking-tight text-[var(--ink)]">
+          Help us launch to the <span class="gradient-text-accent">App Stores</span>
+        </h2>
+        <p class="mt-3 text-sm text-[var(--ink-dim)] leading-relaxed">
+          ExitET is 100% free. Consider supporting us to cover playstore and appstore developer accounts.
+        </p>
+      </div>
+
+      <!-- Right Accounts -->
+      <div class="w-full lg:max-w-sm space-y-3">
+        <!-- Telebirr -->
+        <div class="flex items-center justify-between bg-[var(--bg-soft)] border border-[var(--line)] rounded-xl p-3.5 hover:border-[var(--accent)] transition-all">
+          <div class="flex items-center gap-3">
+            <span class="text-xs font-semibold px-2 py-0.5 rounded bg-indigo-500/10 text-[var(--accent)]">Telebirr</span>
+            <span class="font-mono font-bold text-sm text-[var(--ink)]">0985322632</span>
+          </div>
+          <button onclick="copyToClipboard('0985322632', 'telebirr-btn')" id="telebirr-btn" class="text-xs text-[var(--accent)] hover:underline font-semibold flex items-center gap-1.5 focus:outline-none">
+            Copy
+          </button>
+        </div>
+
+        <!-- CBE -->
+        <div class="flex items-center justify-between bg-[var(--bg-soft)] border border-[var(--line)] rounded-xl p-3.5 hover:border-[var(--accent)] transition-all">
+          <div class="flex items-center gap-3">
+            <span class="text-xs font-semibold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400">CBE</span>
+            <span class="font-mono font-bold text-sm text-[var(--ink)]">1000496331358</span>
+          </div>
+          <button onclick="copyToClipboard('1000496331358', 'cbe-btn')" id="cbe-btn" class="text-xs text-[var(--accent)] hover:underline font-semibold flex items-center gap-1.5 focus:outline-none">
+            Copy
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="border-t border-[var(--line)] bg-[var(--bg-soft)]/20 py-8 mt-16">
+    <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-[var(--ink-dim)]">
+      
+      <!-- Brand & Copyright -->
+      <div class="flex items-center gap-2">
+        <img src="../assets/images/logo.png" alt="ExitET logo" class="w-5 h-5 rounded object-contain opacity-80">
+        <span>&copy; 2026 ExitET &middot; Built for Ethiopian Students</span>
+      </div>
+
+      <!-- Developer & Contacts -->
+      <div class="flex items-center gap-3">
+        <span class="hidden sm:inline">Developer: <span class="text-[var(--ink)] font-medium">Muse Feta</span></span>
+        <span class="hidden sm:inline text-[var(--line)]">|</span>
+        <a href="tel:0985322632" class="hover:text-[var(--accent)] transition-colors duration-200">0985 322 632</a>
+        <span>&middot;</span>
+        <a href="mailto:fetamuse@gmail.com" class="hover:text-[var(--accent)] transition-colors duration-200">fetamuse@gmail.com</a>
+      </div>
+
+    </div>
+  </footer>
+
+  <script>
+    function copyToClipboard(text, buttonId) {
+      navigator.clipboard.writeText(text).then(function() {
+        const btn = document.getElementById(buttonId);
+        const originalText = btn.innerHTML;
+        btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7C8CFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Copied!`;
+        btn.style.borderColor = 'var(--accent)';
+        btn.style.color = 'var(--accent)';
+        setTimeout(function() {
+          btn.innerHTML = originalText;
+          btn.style.borderColor = '';
+          btn.style.color = '';
+        }, 2000);
+      });
+    }
+  </script>
+
+</body>
+</html>
